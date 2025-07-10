@@ -21,7 +21,26 @@ router.get('/', async (req, res, next) => {
     }catch (err){
         return res.status(500).json(err);
     }
-})
+});
+
+router.put('/:id', async (req, res, next) => {
+    try {
+        const {id} = req.params;
+        const {nickname, email, password} = req.body;
+
+        const updated = User.findByIdAndUpdate(
+            id,
+            {nickname, email, password},
+            {new: true, runValidators:true} // 업데이트된 결과를 반환
+        )
+        if(!updated){
+            return res.status(404).json({message: '사용자를 찾을 수 없습니다.'});
+        }
+        return res.json(updated);
+    }catch (err) {
+        return res.status(500).json(err);
+    }
+});
 
 
 router.delete('/:id', async (req, res,next) => {
