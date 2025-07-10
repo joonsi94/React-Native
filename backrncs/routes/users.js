@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../schemas/users');
+const bcrypt = require('bcrypt'); // 비밀번호 해싱을 위한 라이브러리
 
 router.post("/register", async (req, res, next) => {
     try {
         const {nickname, email, password} = req.body;
-        const user = new User({nickname, email, password});
+        const hashed = await bcrypt.hash(password, 12); // 비밀번호 해싱
+        const user = new User({nickname, email, password: hashed});
         // insert...
         const result = await user.save();
         return res.json(result);
@@ -27,11 +29,10 @@ router.put('/:id', async (req, res, next) => {
     try {
         const {id} = req.params;
         const {nickname, email, password} = req.body;
-        console.log(id, nickname, email, password);
-
+        const hashed = await bcrypt.hash(password, 12); // 비밀번호 해싱
         const updated = await User.findByIdAndUpdate(
             id,
-            {nickname, email, password},
+            {nickname, email, password: hashed},
             {new: true, runValidators:true} // 업데이트된 결과를 반환
         )
         if(!updated){
