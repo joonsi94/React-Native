@@ -1,17 +1,19 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const mongo_url = "mongodb+srv://wnstjd637:sDRVOuNkBfVwWktD@cluster0.lr0j6ui.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+require('dotenv').config(); // process.env env 설정한 내용이 가져온다.
 
-// console.log("mongo_url:", mongo_url);
+const mongo_url = process.env.MONGO_URL;
 
-const connect = async () => {
-    mongoose.connect(mongo_url, {dbName: "rncs"})
-        .then(() => {
-            console.log("Mongo DB Connected successfully");
-        })
-        .catch(err => {
-            console.error(err);
-        })
+// console.log("mongo_url: ", mongo_url);
+
+const connect = ()=>{
+  mongoose.connect(mongo_url,{ dbName:'rncs' })
+    .then(()=>{
+      console.log("Mongo DB Connected!")
+    })
+    .catch((err)=>{
+      console.error('Mongo DB Error',err);
+    });
 }
 
 module.exports = connect;
