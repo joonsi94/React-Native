@@ -13,7 +13,6 @@ const cors = require('cors');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const authRouter = require('./routes/auth');
 
 const app = express();
 
@@ -42,7 +41,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-app.use("/auth", authRouter);
 
 app.listen(3000, () => {
     console.log("Server is running on port 3000");
