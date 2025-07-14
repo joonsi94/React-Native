@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../schemas/users');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken'); // JWT 토큰 생성을 위한 라이브러리
 
 router.post("/register", async (req, res, next) => {
     try {
